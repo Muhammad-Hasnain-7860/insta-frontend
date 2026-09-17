@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { authRegisterThunk, loginThunk } from "../apis/authThank";
 import { createPostThunk, editPostThunk } from "../../main/apis/postThunk";
 import { updatePostData } from "../../main/state/postSlice";
+import toast from "react-hot-toast";
 const useAuth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { postUpdateData } = useSelector((store) => store.postSlice);
+  const { postUpdateData , allUsers } = useSelector((store) => store.postSlice);
 
   const {
     register,
@@ -23,8 +24,16 @@ const useAuth = () => {
   const { isLoading } = useSelector((store) => store.authSlice);
 
   const handleRegister = (data) => {
-    const formData = new FormData();
 
+    const foundSameEmailExists = allUsers.find((user)=>{
+      return user.email === data.email
+    })
+
+    if(foundSameEmailExists){
+     return toast.error('already Email Exists')
+    }
+
+    const formData = new FormData();
     formData.append("name", data.name);
     formData.append("email", data.email);
     formData.append("username", data.username);
@@ -39,7 +48,6 @@ const useAuth = () => {
   };
 
   const handlePost = async (data, selectImages , existingImages , id) => {
-    console.log(existingImages)
     const formData = new FormData();
     formData.append("description", data.description);
 
