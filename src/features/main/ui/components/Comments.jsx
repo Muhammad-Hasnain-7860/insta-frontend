@@ -7,6 +7,7 @@ import {
 } from "../../apis/postThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Comments({ setOpen, comments, postId }) {
   const dispatch = useDispatch();
@@ -18,10 +19,17 @@ export default function Comments({ setOpen, comments, postId }) {
   const handleSend = async (id) => {
     const val = inpRef.current?.value;
 
-    if (!val) return;
+    if (!val) {
+      return toast.error('value is Required')
+    };
 
     if (checkUpdate && checkUpdate.replay) {
-      await commentReplayEdit(id, checkUpdate.parentId, val , checkUpdate.commentId);
+      await commentReplayEdit(
+        id,
+        checkUpdate.parentId,
+        val,
+        checkUpdate.commentId,
+      );
       await dispatch(getAllPostsThunk());
       setCheckUpdate(false);
       inpRef.current.value = "";
@@ -49,7 +57,9 @@ export default function Comments({ setOpen, comments, postId }) {
   };
 
   const handleDelete = async (id, comment) => {
-    if (comment.userId.toString() !== user._id.toString()) return;
+    if (comment.userId.toString() !== user._id.toString()) {
+      return toast.error("You are not authorized to delete this comment.");
+    }
 
     if (comment.replay) {
       await commentReplayDelete(id, comment.parentId, comment.commentId);

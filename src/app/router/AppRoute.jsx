@@ -12,6 +12,7 @@ import CreatePostForm from "../../features/main/ui/components/CreatePostForm";
 import Followers from "../../features/main/ui/components/Followers";
 import MainProtected from "./MainProtected";
 import MainLayout from "../layout/MainLayout";
+import { Toaster } from "react-hot-toast";
 const AppRoute = () => {
   const dispatch = useDispatch();
 
@@ -75,7 +76,12 @@ const AppRoute = () => {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+    <RouterProvider router={router} />
+    <Toaster />
+    </>
+  )
 };
 
 export default AppRoute;

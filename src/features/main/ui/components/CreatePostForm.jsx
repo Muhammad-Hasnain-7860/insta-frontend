@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import useAuth from "../../../auth/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
+import { updatePostData } from "../../state/postSlice";
 
 export default function CreatePostForm() {
   const { handleSubmit, handlePost, errors, register, navigate } = useAuth();
@@ -13,6 +15,7 @@ export default function CreatePostForm() {
   const { user } = useSelector((store) => store.authSlice);
   const { postUpdateData } = useSelector((store) => store.postSlice);
   const { isLoading } = useSelector((store) => store.postSlice);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (postUpdateData) {
@@ -22,7 +25,9 @@ export default function CreatePostForm() {
   }, []);
 
   const handleChange = (e) => {
-    if (showImg.length >= 3) return;
+    if (showImg.length >= 3) {
+      return toast.error("You can only upload up to 3 images.");
+    }
     const files = e.target.files[0];
     const url = URL.createObjectURL(files);
     const Nanoid = nanoid();
@@ -95,9 +100,9 @@ export default function CreatePostForm() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 px-4 backdrop-blur-[2px]">
+    <div className="relative min-h-[100vh] max-h-[110vh] inset-0 z-50 flex items-center justify-center bg-black/10 px-4 backdrop-blur-[2px]">
       {/* Modal */}
-      <div className="relative w-full max-w-[540px] overflow-hidden rounded-[24px] border border-black/[0.08] bg-[#faf9f6] shadow-[0_20px_70px_rgba(0,0,0,0.12)]">
+      <div className="relative w-full max-w-[540px]  rounded-[24px] border border-black/[0.08] bg-[#faf9f6] shadow-[0_20px_70px_rgba(0,0,0,0.12)]">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-black/[0.07] px-6 py-4.5">
           <div>
@@ -113,6 +118,7 @@ export default function CreatePostForm() {
           <button
             onClick={() => {
               navigate("/home");
+              dispatch(updatePostData(null))
             }}
             type="button"
             className="flex h-8 w-8 items-center justify-center rounded-full bg-black/[0.04] text-sm text-black/40 transition hover:bg-black/[0.08] hover:text-black"
