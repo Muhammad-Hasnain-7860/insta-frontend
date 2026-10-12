@@ -154,7 +154,7 @@ export default function CreatePostForm() {
             {...register("description", {
               required: "Description is required",
               minLength: {
-                value: 20,
+                value: 10,
                 message: "Description must be at least 20 characters.",
               },
             })}

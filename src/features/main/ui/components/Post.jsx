@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getAllPostsThunk, postLike } from "../../apis/postThunk";
 import { useState } from "react";
 import Comments from "./Comments";
+import Likes from "./Likes";
 
 export default function Post({ post }) {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function Post({ post }) {
     await postLike(data);
     await dispatch(getAllPostsThunk());
   };
+  const [likeOpen , setLikeOpen] = useState(false)
 
   return (
     <article className="mb-10">
@@ -88,6 +90,8 @@ export default function Post({ post }) {
         />
       )}
 
+      {likeOpen && <Likes setOpen={setLikeOpen} likes={post.totalLikes}/>}
+
       <div className="flex items-center justify-between border-b border-black/[0.07] py-3">
         <div className="flex items-center gap-1">
           <button className="flex items-center gap-2 rounded-full px-3 py-2 text-black/50 hover:bg-black/[0.05] hover:text-black">
@@ -99,7 +103,7 @@ export default function Post({ post }) {
               strokeWidth={1.7}
             />
 
-            <span className="text-[10px]">{post?.likes}</span>
+            <span onClick={()=>setLikeOpen(prev => !prev)} className="text-[10px]">{post?.likes}</span>
           </button>
 
           <button className="flex items-center gap-2 rounded-full px-3 py-2 text-black/50 hover:bg-black/[0.05] hover:text-black">

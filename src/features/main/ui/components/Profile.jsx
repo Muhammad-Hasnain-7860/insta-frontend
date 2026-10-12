@@ -4,14 +4,12 @@ import {
   Grid3X3,
   Heart,
   Link,
-  MapPin,
   MoreHorizontal,
   Settings,
-  Share2,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { deleteAndEditPost, getAllPostsThunk } from "../../apis/postThunk";
+import { deleteAndEditPost } from "../../apis/postThunk";
 import { updatePostData } from "../../state/postSlice";
 import { getMeThunk } from "../../../auth/apis/authThank";
 

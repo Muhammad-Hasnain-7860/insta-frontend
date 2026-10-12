@@ -1,7 +1,7 @@
 import useAuth from "../../hooks/useAuth";
 
 export default function Login() {
-  const { register, handleSubmit, handleLogin, isLoading, errors } = useAuth();
+  const { register, handleSubmit, handleLogin, isLoading, errors , navigate} = useAuth();
 
   return (
     <main className="min-h-screen bg-[#f4f1ea] px-4 py-4 sm:px-6">
@@ -131,7 +131,7 @@ export default function Login() {
 
               <p className="mt-6 text-center text-xs text-black/40">
                 Don't have an account?{" "}
-                <span className="font-medium text-black">
+                <span onClick={()=>navigate('/register')} className="font-medium text-black">
                   Create account
                 </span>
               </p>
