@@ -1,6 +1,6 @@
 import axios from "axios";
 const axiosInstance = axios.create({
-  baseURL: "https://insta-backend-dun.vercel.app/",
+  baseURL: "https://insta-backend-dun.vercel.app",
   withCredentials: true,
 });
 
